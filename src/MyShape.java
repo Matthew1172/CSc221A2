@@ -1,4 +1,5 @@
 import javafx.scene.canvas.GraphicsContext;
+import java.util.ArrayList;
 
 public abstract class MyShape implements MyShapeInterface {
     private MyPoint ref;
@@ -19,31 +20,21 @@ public abstract class MyShape implements MyShapeInterface {
     }
 
     @Override
-    public MyRectangle overlapMyRectangles(MyRectangle r1, MyRectangle r2){
-        double x1 = r1.getRef().getX();
-        double y1 = r1.getRef().getY();
-        double w1 = r1.getWidth();
-        double h1 = r1.getHeight();
-        double x2 = r2.getRef().getX();
-        double y2 = r2.getRef().getY();
-        double w2 = r2.getWidth();
-        double h2 = r2.getHeight();
-        if(y1 + h1 < y2 || y1 > y2 + h2) return null;
-        if(x1 + w1 < x2 || x1 > x2 + w2) return null;
-        double xmax = Math.max(x1, x2);
-        double ymax = Math.max(y1, y2);
-        double xmin = Math.min(x1 + w1, x2 + w2);
-        double ymin = Math.min(y1 + h1, y2 + h2);
-        MyPoint p = new MyPoint(xmax, ymax);
-        return new MyRectangle(p, MyColor.CYAN, Math.abs(xmin - xmax), Math.abs(ymin - ymax));
-    }
-
-    @Override
-    public MyRectangle overlapMyShapes(MyShape s1, MyShape s2){
+    public ArrayList<MyPoint> overlapMyShapes(MyShape s1, MyShape s2){
         if (s1 instanceof MyLine || s2 instanceof MyLine) return null;
-        MyRectangle r1 = s1.getMyBoundingRectangle(MyColor.BLACK);
-        MyRectangle r2 = s2.getMyBoundingRectangle(MyColor.BLACK);
-        return overlapMyRectangles(r1, r2);
+        ArrayList<MyPoint> a1 = s1.getMyArea();
+        ArrayList<MyPoint> a2 = s2.getMyArea();
+        ArrayList<MyPoint> in = new ArrayList<MyPoint>();
+        int i = 0, j = 0;
+        while (i < a1.size() && j < a2.size()) {
+            if (a1.get(i).getX() > a2.get(j).getX() || a1.get(i).getY() > a2.get(j).getY()) j++;
+            else if (a1.get(i).getX() < a2.get(j).getX() || a1.get(i).getY() < a2.get(j).getY()) i++;
+            else {
+                in.add(a1.get(i));
+                i++;
+                j++;
+            }
+        }
+        return in;
     }
-
 }
