@@ -1,3 +1,5 @@
+import javafx.scene.canvas.GraphicsContext;
+
 public class MyPoint {
     private double x, y;
     public MyPoint(double x, double y){

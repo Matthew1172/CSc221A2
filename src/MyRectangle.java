@@ -1,6 +1,4 @@
 import javafx.scene.canvas.GraphicsContext;
-import java.util.HashSet;
-import java.util.Set;
 
 public class MyRectangle extends MyShape {
     private double h, w;
@@ -16,19 +14,6 @@ public class MyRectangle extends MyShape {
     public void setHeight(double h){ this.h = h; }
     public double getPerimeter(){ return this.w + this.w + this.h + this.h; }
     public double getArea(){ return this.w * this.h; }
-
-    @Override
-    public Set<MyPoint> overlapMyShapes() {
-        Set<MyPoint> out = new HashSet<MyPoint>();
-
-        return out;
-    }
-
-    @Override
-    public Set<MyPoint> getMyArea() {
-        Set<MyPoint> out = new HashSet<MyPoint>();
-        return out;
-    }
 
     @Override
     public MyRectangle getMyBoundingRectangle(MyColor c) {

@@ -1,6 +1,4 @@
 import javafx.scene.canvas.GraphicsContext;
-import java.util.HashSet;
-import java.util.Set;
 
 public class MyOval extends MyShape {
     private double h, w;
@@ -14,20 +12,8 @@ public class MyOval extends MyShape {
     }
 
     @Override
-    public Set<MyPoint> overlapMyShapes() {
-        Set<MyPoint> out = new HashSet<MyPoint>();
-
-        return out;
-    }
-
-    @Override
     public MyRectangle getMyBoundingRectangle(MyColor c) {
-        return new MyRectangle(new MyPoint(super.getRef().getX() - this.w, super.getRef().getY() - this.h), c, this.h + this.h, this.w + this.w);
-    }
-
-    @Override
-    public Set<MyPoint> getMyArea() {
-        return new HashSet<MyPoint>();
+        return new MyRectangle(super.getRef(), c, this.h, this.w);
     }
 
     public double getArea(){
@@ -42,8 +28,11 @@ public class MyOval extends MyShape {
         return this.c;
     }
 
+    public double getW(){ return this.w; }
+    public double getH(){ return this.h; }
+
     public void setCenter(double w, double h){
-        this.c = new MyPoint((w/2), (h/2));
+        this.c = new MyPoint(super.getRef().getX() + w/2,super.getRef().getY() + (h/2));
     }
 
     public void setAxes(double w, double h){

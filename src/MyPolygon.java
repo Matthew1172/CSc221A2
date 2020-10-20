@@ -1,7 +1,5 @@
 import javafx.scene.canvas.GraphicsContext;
 
-import java.util.Set;
-
 public class MyPolygon extends MyShape {
     private double radius;
     private int sides;
@@ -25,6 +23,11 @@ public class MyPolygon extends MyShape {
     public double getPerimeter(){ return sides * getSide(); }
     public double getAngle(){ return Math.PI/sides; }
     public double getSide(){ return 2 * radius * Math.sin(Math.PI/sides); }
+    public void printSides(){
+        for(int i = 0; i < this.sides; ++i){
+            System.out.println(xp[i] + ", " + yp[i]);
+        }
+    }
     @Override
     public String toString(){
         return String.format("----- Polygon Properties -----\n%15s %s\n%15s %f\n%15s %f\n%15s %f\n%15s %f\n%15s %f\n%15s %s",
@@ -40,7 +43,7 @@ public class MyPolygon extends MyShape {
         gc.fillPolygon(xp, yp, sides);
     }
     public double getRadius(){ return radius; }
-    public double getApothem(){ return radius * Math.cos(Math.toRadians((180 / sides))); }
+    public double getApothem(){ return radius * Math.cos(Math.toRadians((180 / (double) sides))); }
     public void border(GraphicsContext gc){
         gc.setStroke(super.getMyColor().getColor());
         for (int i = 1; i < sides; ++i){
@@ -51,16 +54,9 @@ public class MyPolygon extends MyShape {
 
     @Override
     public MyRectangle getMyBoundingRectangle(MyColor c) {
-        return new MyRectangle(new MyPoint(super.getRef().getX() - this.radius, super.getRef().getY() - this.radius), c, this.radius + this.radius, this.radius + this.radius);
-    }
-
-    @Override
-    public Set<MyPoint> overlapMyShapes() {
-        return null;
-    }
-
-    @Override
-    public Set<MyPoint> getMyArea() {
-        return null;
+        if (this.sides == 3) return new MyRectangle(new MyPoint(super.getRef().getX() - (Math.sqrt(Math.pow(this.radius, 2) - Math.pow(getApothem(), 2))), super.getRef().getY() - this.radius), c, this.radius + getApothem(), (Math.sqrt(Math.pow(this.radius, 2) - Math.pow(getApothem(), 2)))*2);
+        if (this.sides == 6) return new MyRectangle(new MyPoint(super.getRef().getX() - getApothem(), super.getRef().getY() - this.radius), c, this.radius + this.radius, getApothem() + getApothem());
+        if ((this.sides & 1) != 0) return new MyRectangle(new MyPoint(super.getRef().getX() - this.radius, super.getRef().getY() - this.radius), c, this.radius + getApothem(), this.radius + this.radius);
+        else return new MyRectangle(new MyPoint(super.getRef().getX() - this.radius, super.getRef().getY() - this.radius), c, this.radius + this.radius, this.radius + this.radius);
     }
 }
