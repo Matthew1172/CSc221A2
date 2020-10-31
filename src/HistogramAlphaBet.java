@@ -2,9 +2,7 @@ import javafx.scene.canvas.GraphicsContext;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
-import java.util.List;
 import java.util.LinkedList;
 import java.util.LinkedHashMap;
 
@@ -63,20 +61,20 @@ public class HistogramAlphaBet{
         final int sum = m.values().stream().mapToInt(Integer::intValue).sum();
 
         //Put all the letters and their degrees into HashMap f
-        for (Map.Entry<Character, Integer> entry : m.entrySet()) {
+        for (HashMap.Entry<Character, Integer> entry : m.entrySet()) {
             Character key = entry.getKey();
             Integer value = entry.getValue();
             f.put(key, (double) value * (360/(double)sum));
         }
 
         //Sort HashMap f
-        f = sortByValueDouble(f);
+        f = sortByValue(f);
 
         HashMap<Character, Double> ms = new HashMap<Character, Double>();
         for(int i = 0; i < this.n; ++i) {
             char mxk = '*';
             double mxv = 0;
-            for (Map.Entry<Character, Double> entry : f.entrySet()) {
+            for (HashMap.Entry<Character, Double> entry : f.entrySet()) {
                 Character key = entry.getKey();
                 Double value = entry.getValue();
                 if (mxv < value){
@@ -94,22 +92,30 @@ public class HistogramAlphaBet{
         final double sum2 = ms.values().stream().mapToDouble(Double::doubleValue).sum();
         ms.put('*', 360 - sum2);
 
-        ms = sortByValueDouble(ms);
+        ms = sortByValue(ms);
 
         //Print HashMap f
         //f.forEach((key, value) -> System.out.println(key + " " + value));
 
-        double p = 90;
+        double angle = 90;
         int counter = 0;
-        for (Map.Entry<Character, Double> entry : ms.entrySet()) {
+        double pieHeight = y;
+        double pieWidth = x;
+        if (x > y) pieWidth = x - (x - y);
+        else pieHeight = y - (y - x);
+        MyPoint pieRef = new MyPoint((pieHeight / 4), (pieWidth / 4));
+        for (HashMap.Entry<Character, Double> entry : ms.entrySet()) {
             Character key = entry.getKey();
             Double value = entry.getValue();
-            String text = key + " , " + value;
-            MyArc a = new MyArc(new MyPoint(0, 0), cs.get(counter), y, x - 300, p, -value);
+            String text = key + " , " + (value * (sum / 360)) / sum;
+            MyArc a = new MyArc(pieRef, cs.get(counter), pieHeight / 2, pieWidth / 2, angle, -value);
             a.draw(GC);
-            p = a.getStartAngle() + a.getLength();
-            GC.setStroke(cs.get(counter).getColor());
-            GC.strokeText(text, x-200, 50 + (counter * 25));
+            double tx = (pieWidth / 4) * Math.cos((angle - (value/2))*(Math.PI/180.0));
+            double ty = (pieHeight / 4) * Math.sin((angle - (value/2))*(Math.PI/180.0));
+            GC.setStroke(MyColor.BLACK.getColor());
+            GC.strokeText(text, (pieRef.getX() * 2) + tx, (pieRef.getY() * 2) - ty);
+            if(a.getStartAngle() + a.getLength() <= 0) angle = 360 + (angle + a.getLength());
+            else angle = a.getStartAngle() + a.getLength();
             counter++;
         }
     }
@@ -119,10 +125,13 @@ public class HistogramAlphaBet{
         try {
             Scanner input = new Scanner(file);
             while (input.hasNext()) {
-                char c = Character.toLowerCase(input.next().charAt(0));
-                if(Character.isLetter(c)) {
-                    if (m.containsKey(c)) m.put(c, m.get(c) + 1);
-                    else m.put(c, 1);
+                String n = input.next();
+                for(int i = 0; i < n.length(); ++i) {
+                    char c = Character.toLowerCase(n.charAt(i));
+                    if (Character.isLetter(c)) {
+                        if (m.containsKey(c)) m.put(c, m.get(c) + 1);
+                        else m.put(c, 1);
+                    }
                 }
             }
             input.close();
@@ -131,12 +140,12 @@ public class HistogramAlphaBet{
         }
     }
 
-    public static HashMap<Character, Double> sortByValueDouble(HashMap<Character, Double> hm)
+    public static HashMap<Character, Double> sortByValue(HashMap<Character, Double> hm)
     {
-        List<Map.Entry<Character, Double> > list = new LinkedList<>(hm.entrySet());
-        list.sort(Map.Entry.comparingByValue());
+        LinkedList<HashMap.Entry<Character, Double> > list = new LinkedList<>(hm.entrySet());
+        list.sort(HashMap.Entry.comparingByValue());
         HashMap<Character, Double> temp = new LinkedHashMap<>();
-        for (Map.Entry<Character, Double> aa : list) temp.put(aa.getKey(), aa.getValue());
+        for (HashMap.Entry<Character, Double> aa : list) temp.put(aa.getKey(), aa.getValue());
         return temp;
     }
 }

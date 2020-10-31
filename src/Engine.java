@@ -4,6 +4,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+
 public class Engine extends Application {
     public static void main(String[] args) {
         launch(args);
@@ -28,7 +29,7 @@ public class Engine extends Application {
     public Canvas addCanvas(int cWidth, int cHeight) {
         Canvas CV = new Canvas(cWidth, cHeight);
         GraphicsContext GC = CV.getGraphicsContext2D();
-        HistogramAlphaBet h = new HistogramAlphaBet(GC, cWidth, cHeight, 3);
+        HistogramAlphaBet h = new HistogramAlphaBet(GC, cWidth, cHeight, 6);
         h.drawConfig();
 
         MyPieChart p = new MyPieChart(GC,cWidth,cHeight);

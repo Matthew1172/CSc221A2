@@ -1,12 +1,8 @@
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.shape.Arc;
 import javafx.scene.shape.ArcType;
-
 import java.util.ArrayList;
 
 public class MyArc extends MyShape {
-    //private MyPoint start;
-    //private MyPoint end;
     private double height;
     private double width;
     private double startAngle;
@@ -14,8 +10,6 @@ public class MyArc extends MyShape {
 
     MyArc(MyPoint ref, MyColor c, double height, double width, double startAngle, double length){
         super(ref, c);
-        //this.start = start;
-        //this.end = end;
         this.height = height;
         this.width = width;
         this.startAngle = startAngle;
@@ -44,24 +38,6 @@ public class MyArc extends MyShape {
         return null;
     }
 
-/*
-    public MyPoint getStart() {
-        return start;
-    }
-
-    public void setStart(MyPoint start) {
-        this.start = start;
-    }
-
-    public MyPoint getEnd() {
-        return end;
-    }
-
-    public void setEnd(MyPoint end) {
-        this.end = end;
-    }
-
- */
     public double getHeight() {
         return height;
     }
