@@ -1,5 +1,6 @@
 import javafx.scene.canvas.GraphicsContext;
 import java.io.FileNotFoundException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -18,7 +19,8 @@ public class HistogramAlphaBet{
         this.x = x;
         this.y = y;
         this.n = n;
-        readFile();
+        //readFile();
+        readDatabase();
     }
 
     public void drawConfig(){
@@ -121,7 +123,7 @@ public class HistogramAlphaBet{
     }
 
     public void readFile(){
-        java.io.File file = new java.io.File("C:\\Users\\18453\\Desktop\\CSc221A2\\assets\\alice.txt");
+        java.io.File file = new java.io.File("C:\\Users\\pecko\\IdeaProjects\\CSc221A2\\assets\\alice.txt");
         try {
             Scanner input = new Scanner(file);
             while (input.hasNext()) {
@@ -139,6 +141,40 @@ public class HistogramAlphaBet{
             e.printStackTrace();
         }
     }
+
+    public void readDatabase(){
+
+        /*
+        System.out.println("Starting create all tables . . .\n");
+        db.createStudentsTable();
+        db.createCoursesTable();
+        db.createClassesTable();
+        System.out.println("Finished with creating all tables. Check results above.\nStarting data entry . . .\n");
+        db.userInputStudents();
+        db.userInputCourses();
+        db.userInputClasses();
+        System.out.println("Finished data entry process. Check results above.");
+         */
+
+        //db.userInputStudents();
+
+        /*
+        ArrayList<MyStudent> s = new ArrayList<>();
+        MyStudent s1 = new MyStudent("23916861", "matthew", "pecko", "pecko.matthew@gmail.com", "male");
+        MyStudent s2 = new MyStudent("23916869", "jane", "doe", "jane.doe@gmail.com", "female");
+        s.add(s1);
+        s.add(s2);
+
+        try {
+            db.addStudents(s);
+            //db.loadAllStudents();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+*/
+    }
+
 
     public static HashMap<Character, Double> sortByValue(HashMap<Character, Double> hm)
     {

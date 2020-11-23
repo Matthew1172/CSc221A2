@@ -96,7 +96,7 @@ public class MyPieChart {
     }
 
     public void readFile(){
-        java.io.File file = new java.io.File("C:\\Users\\18453\\Desktop\\CSc221A2\\assets\\alice.txt");
+        java.io.File file = new java.io.File("C:\\Users\\pecko\\IdeaProjects\\CSc221A2\\assets\\alice.txt");
         try {
             Scanner input = new Scanner(file);
             while (input.hasNext()) {

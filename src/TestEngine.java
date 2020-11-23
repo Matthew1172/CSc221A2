@@ -5,62 +5,20 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import java.sql.SQLException;
+
 import java.util.Scanner;
 
-
-public class Engine extends Application {
-    private Stage mainStage;
-    private Pane mainP;
-
-/*
+public class TestEngine {
     public static void main(String[] args) {
-        launch(args);
-    }
 
- */
 
-    @Override
-    public void start(Stage PS) {
-        mainStage = PS;
-        mainStage.setAlwaysOnTop(true);
-        try {
+        Application.launch(Engine.class, args);
+        //Engine e = new Engine();
+        //new Thread(new Engine()).start();
 
-            PS.setTitle("CSc221 Lab 4");
-            Pane P = new Pane();
 
-            //Platform.setImplicitExit(false);
 
-            Canvas CV = addCanvas(1200, 900);
-            P.getChildren().add(CV);
-
-            Scene SC = new Scene(P, 1200, 900, MyColor.WHITE.getColor());
-            PS.setScene(SC);
-
-            PS.show();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public Canvas addCanvas(int cWidth, int cHeight) {
-        Canvas CV = new Canvas(cWidth, cHeight);
-        GraphicsContext GC = CV.getGraphicsContext2D();
-
-        HistogramAlphaBet h = new HistogramAlphaBet(GC, cWidth, cHeight, 6);
-        h.drawConfig();
-
-        //MyPieChart p = new MyPieChart(GC,cWidth,cHeight);
-        //p.drawConfig();
-        return CV;
-    }
-}
-
-/*
         MyDatabase db = new MyDatabase();
-
         //Put method in loop where user can enter a students 'full' record across all tables.
         Scanner sc = new Scanner(System.in);
         String menu;
@@ -81,7 +39,6 @@ public class Engine extends Application {
                     "press A to print histogram of all students in course\n" +
                     "press B to exit");
             menu = sc.next();
-            //if(menu.equals("q") || menu.equals("Q")) break;
             switch (menu){
                 case "0":
                     db.createStudentsTable();
@@ -108,8 +65,47 @@ public class Engine extends Application {
                     db.userInputClasses();
                     break;
                 case "9":
+
+                    //new Thread(() -> Application.launch(Engine.class, args)).start();
+
+/*
+                    Platform.startup(() -> {
+                        System.out.println("creating gui");
+                        try {
+                            Stage PS = new Stage();
+
+                            PS.setTitle("CSc221 Lab 4");
+                            Pane P = new Pane();
+
+                            Platform.setImplicitExit(false);
+
+                            Canvas CV = new Canvas(1200, 900);
+                            GraphicsContext GC = CV.getGraphicsContext2D();
+
+                            HistogramAlphaBet h = new HistogramAlphaBet(GC, 1200, 900, 6);
+                            h.drawConfig();
+
+
+                            P.getChildren().add(CV);
+                            P.setOnMouseClicked(event -> {
+                                PS.hide();
+                                //Platform.exit();
+                            });
+                            Scene SC = new Scene(P, 1200, 900, MyColor.WHITE.getColor());
+                            PS.setScene(SC);
+
+                            PS.show();
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            System.out.println(e.getMessage());
+                        }
+                    });
+                    //Platform.exit(); // shutdown javafx
+ */
                     break;
                 case "A":
+                    //new Thread(new Engine()).start(); // this will call your MainApp
                     break;
                 case "B":
                     System.out.println("Exiting . . .");
@@ -118,4 +114,5 @@ public class Engine extends Application {
             if(!flag) System.out.println("Finished process. Check results above.\n");
         }
 
- */
+    }
+}
