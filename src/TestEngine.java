@@ -1,4 +1,3 @@
-import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -76,20 +75,19 @@ public class TestEngine {
                             Canvas CV = new Canvas(1200, 900);
                             GraphicsContext GC = CV.getGraphicsContext2D();
 
-                            HistogramAlphaBet h = new HistogramAlphaBet(GC, 1200, 900, 2, db);
+                            HistogramAlphaBet h = new HistogramAlphaBet(GC, 1200, 900, 4, db);
                             h.drawConfig();
 
-
                             P.getChildren().add(CV);
+                            /*
                             P.setOnMouseClicked(event -> {
                                 PS.hide();
                                 Platform.exit();
                             });
+                             */
                             Scene SC = new Scene(P, 1200, 900, MyColor.WHITE.getColor());
                             PS.setScene(SC);
-
                             PS.show();
-
                         } catch (Exception e) {
                             e.printStackTrace();
                             System.out.println(e.getMessage());
@@ -112,17 +110,16 @@ public class TestEngine {
                             MyPieChart h = new MyPieChart(GC, 1200, 900, db);
                             h.drawConfig();
 
-
                             P.getChildren().add(CV);
+                            /*
                             P.setOnMouseClicked(event -> {
                                 PS.hide();
                                 Platform.exit();
                             });
+                             */
                             Scene SC = new Scene(P, 1200, 900, MyColor.WHITE.getColor());
                             PS.setScene(SC);
-
                             PS.show();
-
                         } catch (Exception e) {
                             e.printStackTrace();
                             System.out.println(e.getMessage());

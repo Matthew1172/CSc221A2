@@ -1,7 +1,5 @@
 import javafx.scene.canvas.GraphicsContext;
 import java.io.FileNotFoundException;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,12 +29,12 @@ public class HistogramAlphaBet{
         this.y = y;
         this.n = n;
         this.db = db;
-        //readFile();
         try {
             readDatabase();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+
     }
 
     public void drawConfig(){
@@ -125,7 +123,7 @@ public class HistogramAlphaBet{
         for (HashMap.Entry<Character, Double> entry : ms.entrySet()) {
             Character key = entry.getKey();
             Double value = entry.getValue();
-            String text = key + " , " + (value * (sum / 360)) / sum;
+            String text = key + " , " + (value * ((double)sum / 360)) / sum;
             MyArc a = new MyArc(pieRef, cs.get(counter), pieHeight / 2, pieWidth / 2, angle, -value);
             a.draw(GC);
             double tx = (pieWidth / 4) * Math.cos((angle - (value/2))*(Math.PI/180.0));
@@ -159,7 +157,7 @@ public class HistogramAlphaBet{
     }
 
     public void readDatabase() throws SQLException {
-        m = db.getAllStudentGradesFromCourseid("000");
+        m = db.getAllStudentGradesFromCourseid("0");
     }
 
     public static HashMap<Character, Double> sortByValue(HashMap<Character, Double> hm)
