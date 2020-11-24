@@ -12,13 +12,15 @@ import java.util.Scanner;
 public class Engine extends Application {
     private Stage mainStage;
     private Pane mainP;
+    private Scene sc1;
+    private Scene sc2;
 
-/*
+
     public static void main(String[] args) {
         launch(args);
+
     }
 
- */
 
     @Override
     public void start(Stage PS) {
@@ -28,16 +30,21 @@ public class Engine extends Application {
 
             PS.setTitle("CSc221 Lab 4");
             Pane P = new Pane();
+            Pane P2 = new Pane();
 
-            //Platform.setImplicitExit(false);
+            Platform.setImplicitExit(false);
 
-            Canvas CV = addCanvas(1200, 900);
+            Canvas CV = addPie1(1200, 900);
             P.getChildren().add(CV);
 
-            Scene SC = new Scene(P, 1200, 900, MyColor.WHITE.getColor());
-            PS.setScene(SC);
+            Canvas CV2 = addPie2(1200, 900);
+            P2.getChildren().add(CV2);
 
-            PS.show();
+            sc1 = new Scene(P, 1200, 900, MyColor.WHITE.getColor());
+            sc2 = new Scene(P2, 1200, 900, MyColor.WHITE.getColor());
+
+            //PS.setScene(SC);
+            //PS.show();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -45,7 +52,7 @@ public class Engine extends Application {
         }
     }
 
-    public Canvas addCanvas(int cWidth, int cHeight) {
+    public Canvas addPie1(int cWidth, int cHeight) {
         Canvas CV = new Canvas(cWidth, cHeight);
         GraphicsContext GC = CV.getGraphicsContext2D();
 
@@ -54,6 +61,17 @@ public class Engine extends Application {
 
         //MyPieChart p = new MyPieChart(GC,cWidth,cHeight);
         //p.drawConfig();
+        return CV;
+    }
+    public Canvas addPie2(int cWidth, int cHeight) {
+        Canvas CV = new Canvas(cWidth, cHeight);
+        GraphicsContext GC = CV.getGraphicsContext2D();
+
+        //HistogramAlphaBet h = new HistogramAlphaBet(GC, cWidth, cHeight, 6);
+        //h.drawConfig();
+
+        MyPieChart p = new MyPieChart(GC,cWidth,cHeight);
+        p.drawConfig();
         return CV;
     }
 }
