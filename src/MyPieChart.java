@@ -1,5 +1,7 @@
 import javafx.scene.canvas.GraphicsContext;
 import java.io.FileNotFoundException;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -11,12 +13,25 @@ public class MyPieChart {
     private GraphicsContext GC;
     private int x;
     private int y;
+    private MyDatabase db;
 
     MyPieChart(GraphicsContext GC, int x, int y){
         this.GC = GC;
         this.x = x;
         this.y = y;
         readFile();
+    }
+
+    MyPieChart(GraphicsContext GC, int x, int y, MyDatabase db){
+        this.GC = GC;
+        this.x = x;
+        this.y = y;
+        this.db = db;
+        try {
+            readDatabase();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     public void drawConfig() {
@@ -115,6 +130,9 @@ public class MyPieChart {
         }
     }
 
+    public void readDatabase() throws SQLException {
+        m = db.getAllStudentGradesFromCourseid("000");
+    }
 
     public static HashMap<Character, Double> sortByValue(HashMap<Character, Double> hm)
     {

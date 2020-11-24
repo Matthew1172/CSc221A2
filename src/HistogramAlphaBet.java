@@ -1,5 +1,7 @@
 import javafx.scene.canvas.GraphicsContext;
 import java.io.FileNotFoundException;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,14 +15,28 @@ public class HistogramAlphaBet{
     private double x;
     private double y;
     private int n;
+    private MyDatabase db;
 
     HistogramAlphaBet(GraphicsContext GC, double x, double y, int n){
         this.GC = GC;
         this.x = x;
         this.y = y;
         this.n = n;
+        readFile();
+    }
+
+    HistogramAlphaBet(GraphicsContext GC, double x, double y, int n, MyDatabase db){
+        this.GC = GC;
+        this.x = x;
+        this.y = y;
+        this.n = n;
+        this.db = db;
         //readFile();
-        readDatabase();
+        try {
+            readDatabase();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     public void drawConfig(){
@@ -142,7 +158,25 @@ public class HistogramAlphaBet{
         }
     }
 
-    public void readDatabase(){
+    public void readDatabase() throws SQLException {
+        m = db.getAllStudentGradesFromCourseid("000");
+    }
+
+    public static HashMap<Character, Double> sortByValue(HashMap<Character, Double> hm)
+    {
+        LinkedList<HashMap.Entry<Character, Double> > list = new LinkedList<>(hm.entrySet());
+        list.sort(HashMap.Entry.comparingByValue());
+        HashMap<Character, Double> temp = new LinkedHashMap<>();
+        for (HashMap.Entry<Character, Double> aa : list) temp.put(aa.getKey(), aa.getValue());
+        return temp;
+    }
+}
+
+
+
+
+/*
+
 
         /*
         System.out.println("Starting create all tables . . .\n");
@@ -156,7 +190,7 @@ public class HistogramAlphaBet{
         System.out.println("Finished data entry process. Check results above.");
          */
 
-        //db.userInputStudents();
+//db.userInputStudents();
 
         /*
         ArrayList<MyStudent> s = new ArrayList<>();
@@ -173,15 +207,4 @@ public class HistogramAlphaBet{
             e.printStackTrace();
         }
 */
-    }
 
-
-    public static HashMap<Character, Double> sortByValue(HashMap<Character, Double> hm)
-    {
-        LinkedList<HashMap.Entry<Character, Double> > list = new LinkedList<>(hm.entrySet());
-        list.sort(HashMap.Entry.comparingByValue());
-        HashMap<Character, Double> temp = new LinkedHashMap<>();
-        for (HashMap.Entry<Character, Double> aa : list) temp.put(aa.getKey(), aa.getValue());
-        return temp;
-    }
-}

@@ -16,11 +16,12 @@ public class Engine extends Application {
     private Scene sc2;
 
 
+/*
     public static void main(String[] args) {
         launch(args);
 
     }
-
+ */
 
     @Override
     public void start(Stage PS) {

@@ -11,15 +11,7 @@ import java.util.Scanner;
 public class TestEngine {
     public static void main(String[] args) {
 
-
-        Application.launch(Engine.class, args);
-        //Engine e = new Engine();
-        //new Thread(new Engine()).start();
-
-
-
         MyDatabase db = new MyDatabase();
-        //Put method in loop where user can enter a students 'full' record across all tables.
         Scanner sc = new Scanner(System.in);
         String menu;
         boolean flag = false;
@@ -37,7 +29,11 @@ public class TestEngine {
                     "press 8 to input classes\n" +
                     "press 9 to print histogram of top n students in course\n" +
                     "press A to print histogram of all students in course\n" +
-                    "press B to exit");
+                    "press B to modify student by empid\n" +
+                    "press C to modify course by courseid\n" +
+                    "press D to modify class by sectionNo\n" +
+                    "press E to dump all tables to terminal\n" +
+                    "press F to exit");
             menu = sc.next();
             switch (menu){
                 case "0":
@@ -50,10 +46,13 @@ public class TestEngine {
                     db.createClassesTable();
                     break;
                 case "3":
+                    db.dropStudentsTable();
                     break;
                 case "4":
+                    db.dropCoursesTable();
                     break;
                 case "5":
+                    db.dropClassesTable();
                     break;
                 case "6":
                     db.userInputStudents();
@@ -65,31 +64,26 @@ public class TestEngine {
                     db.userInputClasses();
                     break;
                 case "9":
-
-                    //new Thread(() -> Application.launch(Engine.class, args)).start();
-
-/*
                     Platform.startup(() -> {
-                        System.out.println("creating gui");
                         try {
                             Stage PS = new Stage();
 
                             PS.setTitle("CSc221 Lab 4");
                             Pane P = new Pane();
 
-                            Platform.setImplicitExit(false);
+                            //Platform.setImplicitExit(false);
 
                             Canvas CV = new Canvas(1200, 900);
                             GraphicsContext GC = CV.getGraphicsContext2D();
 
-                            HistogramAlphaBet h = new HistogramAlphaBet(GC, 1200, 900, 6);
+                            HistogramAlphaBet h = new HistogramAlphaBet(GC, 1200, 900, 2, db);
                             h.drawConfig();
 
 
                             P.getChildren().add(CV);
                             P.setOnMouseClicked(event -> {
                                 PS.hide();
-                                //Platform.exit();
+                                Platform.exit();
                             });
                             Scene SC = new Scene(P, 1200, 900, MyColor.WHITE.getColor());
                             PS.setScene(SC);
@@ -101,17 +95,58 @@ public class TestEngine {
                             System.out.println(e.getMessage());
                         }
                     });
-                    //Platform.exit(); // shutdown javafx
- */
                     break;
                 case "A":
-                    //new Thread(new Engine()).start(); // this will call your MainApp
+                    Platform.startup(() -> {
+                        try {
+                            Stage PS = new Stage();
+
+                            PS.setTitle("CSc221 Lab 4");
+                            Pane P = new Pane();
+
+                            //Platform.setImplicitExit(false);
+
+                            Canvas CV = new Canvas(1200, 900);
+                            GraphicsContext GC = CV.getGraphicsContext2D();
+
+                            MyPieChart h = new MyPieChart(GC, 1200, 900, db);
+                            h.drawConfig();
+
+
+                            P.getChildren().add(CV);
+                            P.setOnMouseClicked(event -> {
+                                PS.hide();
+                                Platform.exit();
+                            });
+                            Scene SC = new Scene(P, 1200, 900, MyColor.WHITE.getColor());
+                            PS.setScene(SC);
+
+                            PS.show();
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            System.out.println(e.getMessage());
+                        }
+                    });
                     break;
                 case "B":
+                    db.updateStudents();
+                    break;
+                case "C":
+                    db.updateCourses();
+                    break;
+                case "D":
+                    db.updateClasses();
+                    break;
+                case "E":
+                    db.dump();
+                    break;
+                case "F":
                     System.out.println("Exiting . . .");
+                    Platform.exit();
                     flag = true;
             }
-            if(!flag) System.out.println("Finished process. Check results above.\n");
+            if(!flag) System.out.println("\nFinished process. Check results above.\n");
         }
 
     }
