@@ -1,4 +1,9 @@
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -520,9 +525,7 @@ public class MyDatabase {
 
     public HashMap<Character, Integer> getAllStudentGradesFromCourseid(String courseid) throws SQLException {
         HashMap<Character, Integer> m = new HashMap<Character, Integer>();
-
         String sql = "SELECT * FROM classes JOIN students ON classes.empid = students.empid WHERE courseid = ?";
-
         try (PreparedStatement insert = con.prepareStatement(sql)) {
             con.setAutoCommit(false);
             try {
@@ -537,11 +540,9 @@ public class MyDatabase {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-
         } catch (SQLException e) {
             System.out.println("ERROR: " + e.getMessage());
         }
-
         return m;
     }
 
